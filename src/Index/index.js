@@ -1,5 +1,5 @@
 import React from "react";
-import Shelf from "../Shelf/shelf"
+import Shelves from "../Shelf/shelves"
 import Library from "../NodeLibrary/library.js"
 import Scene from "../NodeLibrary/scene.js";
 
@@ -21,15 +21,43 @@ class Index extends React.Component{
       outputs: [1,2]
     })
 
+
+    let str = Library.String({
+      x: 140,
+      y: 50
+    })
+
     let nodes = [
       font,
-      font2
+      font2,
+      str
     ]
 
     this.state = {
       nodes: nodes,
       scene: scene
     }
+
+    this.__onUnclick = [];
+    window.registerUnclick = this.registerUnclick.bind( this )
+    window.clickNode = this.__clickNode.bind( this );
+  }
+
+
+  componentDidMount(){
+    window.unClick = () => {
+      this.__onUnclick.forEach(
+        ( func ) => { func() }
+      );
+    }
+  }
+
+  registerUnclick( func ){
+    this.__onUnclick.push( func )
+  }
+
+  __clickNode( node ){
+    this.setState({ selected: node })
   }
 
   componentWillUnmount(){
@@ -40,7 +68,10 @@ class Index extends React.Component{
     console.log("happening index")
     return(
       <div className = "index">
-        <Shelf nodes = { this.state.nodes }/>
+        <Shelves
+          nodes = { this.state.nodes }
+          selected = { this.state.selected }
+          />
       </div>
     )
   }

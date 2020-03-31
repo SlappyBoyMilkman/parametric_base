@@ -1,5 +1,6 @@
 import Font from "./Nodes/font"
 import TextCanvas from "./Nodes/textCanvas"
+import StringNode from "./Nodes/StringNode"
 
 let Library = {
   Font: function( settings ){
@@ -12,6 +13,11 @@ let Library = {
     let textCanvas = new TextCanvas( settings );
     console.log( "new Text Canvas" )
     return textCanvas
+  },
+
+  String: function( settings ){
+    let string = new StringNode( settings );
+    return string
   },
 
   idList: {},
